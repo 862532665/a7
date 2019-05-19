@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!-- 导入约束 -->
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  
+<configuration>   
+	<!-- 
+		mybatis的全局配置
+	 -->
+	<!-- 引入外部的properties配置文件 
+			resource：外部properties配置文件的路径（相对路径）
+		获取外部propoerties文件中的内容
+			${properties文件中的key}
+	-->
+	
+	  <properties resource="jdbc.properties"></properties>
+	<!-- 
+		properties		: 引入外部的properties配置文件
+		settings		： 全局配置（第4天）
+		typeAliases		： 别名
+		environments	： 配置运行环境（明天）
+		mappers			： 引入sql映射文件
+	 -->
+	 <!-- 配置别名
+	 		typeAliases : 声明别名配置
+	 -->
+	 <typeAliases>
+	 	<!-- 
+	 		typeAlias : 一个实体类配置一次
+		 		配置别名 
+		 			type : 全限定类名
+		 			alias：别名
+		 	<typeAlias type="cn.itcast.domain.User" alias="user"/>
+	 	-->
+	 	
+	 	<!-- 约定：将实体类放到同一个包下
+	 			对此包下的所有实体类进行别名的配置：
+	 					别名：类名（不区分大小写）
+	 	‘ -->
+	 	<package name="cn.itcast.domain"/>
+	 	
+	 </typeAliases>
+	
+
+   <environments default="development">   
+      <environment id="development">   
+        <transactionManager type="JDBC" />   
+        <dataSource type="POOLED">   
+          <property name="driver" value="${jdbc.driver}" ></property>   
+          <property name="url" value="${jdbc.url}" ></property>   
+          <property name="username" value="${jdbc.username}"></property>
+          <property name="password" value="${jdbc.password}"></property>
+        </dataSource>   
+     </environment>   
+  </environments>
+  
+  <!-- 
+  	mappers ：声明引入sql映射文件
+  			mapper：配置引入sql映射文件
+  				resource ： sql映射文件的路径（相对路径）
+  			class : 接口的全限定类名 (一个sql映射文件需要配置一次)
+  			约定：
+  				1.sql映射文件放到dao接口所在的目录下
+  				2.sql映射文件的名称和dao接口名保持一致
+   -->
+  <mappers>
+ 		<!-- <mapper resource="mappers/UserMapper.xml"></mapper> -->
+  		<!-- <mapper class="cn.itcast.dao.UserDao"/> -->
+  		<package name="cn.itcast.dao"/>
+  </mappers>
+  
+
+</configuration>   

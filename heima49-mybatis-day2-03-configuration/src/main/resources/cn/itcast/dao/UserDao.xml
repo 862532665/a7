@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!-- 导入约束 -->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="cn.itcast.dao.UserDao">   
+	
+	<!-- 查询总用户数 -->
+	<select id="getCount" resultType="InT">
+		select count(*) from user
+	</select>
+	
+	
+	<select id="findAllUser" resultMap="userResultMap">
+		SELECT id _id,username _username, birthday bd ,sex usersex ,address _add FROM USER
+	</select>
+	
+	<!-- 使用resultMap定义映射关系 
+		type:	封装好的对象类型（全限定类名）
+		id: 	唯一标识
+	-->
+	<resultMap type="useR" id="userResultMap">
+		<!-- 配置主键的映射关系 -->
+		<id property="id" column="_id"/>
+		<!-- 配置普通属性的映射关系 -->
+		<result property="username" column="_username"/>
+		<result property="sex" column="usersex"/>
+		<result property="address" column="_add"/>
+		<result property="birthday" column="bd"/>
+	</resultMap>
+</mapper> 

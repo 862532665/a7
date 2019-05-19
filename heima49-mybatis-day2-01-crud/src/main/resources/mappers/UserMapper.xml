@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!-- 导入约束 -->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="cn.itcast.dao.UserDao">   
+
+	<!-- 保存sql 
+		insert : 保存sql
+			id：sql的标识
+			parameterType：输入参数的类型（对象的全限定类名）
+				对占位符说明：
+					ognl表达式  ： 对象.对象.属性
+					语法 #{ognl}  ： ognl：只关注对象中的属性名即可
+									#{account.accountName}
+									
+		获取保存的主键
+			方式一 ： 
+				useGeneratedKeys ： 开关（是否获取保存主键id的取值true|false）
+				keyProperty ： 将主键id的值赋值到对象中的属性上（属性名）
+				
+			方式二：（和数据库进行了两次交互，使用了mysql的独有语法）
+				select last_insert_id(): 获取最后保存的注解的值，需要在保存之后调用
+				order:执行顺序
+				resultType：返回类型
+				keyProperty：对象中属性
+	-->
+	<insert id="saveUser" parameterType="cn.itcast.domain.User" useGeneratedKeys="true" keyProperty="id">
+<!-- 		<selectKey order="AFTER" resultType="java.lang.Integer" keyProperty="id">
+			select last_insert_id();
+		</selectKey> -->
+		insert into user(username,birthday,sex,address)  values (#{username},#{birthday},#{sex},#{address})
+	</insert>
+	
+	
+	<!-- 更新 -->
+	<update id="updateUser" parameterType="cn.itcast.domain.User">
+		update user set username=#{username} , sex=#{sex} , address = #{address} where id = #{id} 
+	</update>
+	
+	<!-- 删除：根据id删除
+				输入参数：基本数据类型（包含string）
+				ognl ：#{随便写}
+	 -->
+	<update id="deleteUser" parameterType="iNT">
+		delete from user where id =#{id}
+	</update>
+	
+	<!-- 根据id查询 -->
+	<select id="findById" parameterType="int" resultType="cn.itcast.domain.User">
+		select * from user where id =#{userid}
+	</select>
+	
+	<!-- 模糊查询 
+		查询返回列表：
+				${} : sql拼接
+					输入参数是对象 ： ${对象中的属性}
+					基本数据类型（String） ： ${value}
+				#{} ：预编译对占位符赋值
+					输入参数是对象 ： #{对象中的属性}
+					基本数据类型（String） ： #{随便写}
+	-->
+	<select id="findByName" parameterType="string" resultType="cn.itcast.domain.User">
+		<!-- select * from user where username like  #{name} -->
+		<!-- select * from user where username like '%${value}%' -->
+		${value}
+	</select>
+</mapper> 
